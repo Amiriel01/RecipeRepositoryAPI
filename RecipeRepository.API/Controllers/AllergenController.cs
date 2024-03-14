@@ -18,6 +18,29 @@ namespace RecipeRepository.API.Controllers
             this.allergenCategoryRepository = allergenCategoryRepository;
         }
 
+        //GET: {apibaseurl}/api/Allergens
+        [HttpGet]
+        public async Task<IActionResult> GetAllAllergenCategories()
+        {
+            //add get to interface and implementation files
+            //allergenCategories DM
+            var allergenCategories = await allergenCategoryRepository.GetAllAsync();
+
+            //convert DM to DTO, all allergen categories in the list
+            var response = new List<AllergenCategoryDTO>();
+            foreach (var allergenCategory in allergenCategories)
+            {
+                response.Add(new AllergenCategoryDTO()
+                {
+                    Id = allergenCategory.Id,
+                    AllergenName = allergenCategory.AllergenName,
+                    AllergenUrlHandle = allergenCategory.AllergenUrlHandle,
+                });
+            }
+
+            return Ok(response);
+        }
+
         //POST: {baseapiurl}/api/Allergen
         [HttpPost]
         //create DTO for CreateAllergenDTO without the DM id in Domain.DTO folder

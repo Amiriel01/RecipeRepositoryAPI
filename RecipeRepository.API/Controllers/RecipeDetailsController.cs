@@ -18,6 +18,33 @@ namespace RecipeRepository.API.Controllers
             this.recipeDetailsRepository = recipeDetailsRepository;
         }
 
+        //GET: {apibaseurl}/api/Recipes
+        [HttpGet]
+        public async Task<IActionResult> GetAllRecipeDetails()
+        {
+            //add get to interface and implementation files
+            //mealCategories DM
+            var recipeDetails = await recipeDetailsRepository.GetAllAsync();
+
+            //convert DM to DTO, all meal categories in the list
+            var response = new List<RecipeDetailsDTO>();
+            foreach (var recipe in recipeDetails)
+            {
+                response.Add(new RecipeDetailsDTO()
+                {
+                    Id = recipe.Id,
+                    RecipeName = recipe.RecipeName,
+                    RecipeUrlHandle = recipe.RecipeUrlHandle,
+                    RecipeShortDescription = recipe.RecipeShortDescription,
+                    RecipeContent = recipe.RecipeContent,
+                    RecipeImage = recipe.RecipeImage,
+                    isVisible = recipe.isVisible,
+                });
+            }
+
+            return Ok(response);
+        }
+
         //POST: {baseapiurl}/api/Meals
         [HttpPost]
         //create DTO for CreateRecipeDetailsRequestDTO without the DM id in Domain.DTO folder

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RecipeRepository.API.Data;
 using RecipeRepository.API.Models.Domain;
 using RecipeRepository.API.Models.DTO;
+using RecipeRepository.API.Repositories.Implementation;
 using RecipeRepository.API.Repositories.Interface;
 
 namespace RecipeRepository.API.Controllers
@@ -20,7 +21,30 @@ namespace RecipeRepository.API.Controllers
             this.mealCategoryRepository = mealCategoryRepository;
         }
 
-        //POST: {baseapiurl}/api/Meals
+        //GET: {apibaseurl}/api/Meals
+        [HttpGet]
+        public async Task<IActionResult> GetAllMealCategories()
+        {
+            //add get to interface and implementation files
+            //mealCategories DM
+            var mealCategories = await mealCategoryRepository.GetAllAsync();
+
+            //convert DM to DTO, all meal categories in the list
+            var response = new List<MealCategoryDTO>();
+            foreach (var mealCategory in mealCategories)
+            {
+                response.Add(new MealCategoryDTO()
+                {
+                    Id = mealCategory.Id,
+                    MealName = mealCategory.MealName,
+                    MealUrlHandle = mealCategory.MealUrlHandle,
+                });
+            }   
+
+            return Ok(response);
+        }
+
+        //POST: {apibaseurl}/api/Meals
         [HttpPost]
         //create DTO for CreateMealDTO without the DM id in Domain.DTO folder
         //place the DTO as a prop and name it request because the user is requesting the information

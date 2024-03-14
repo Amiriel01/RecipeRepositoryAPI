@@ -13,6 +13,14 @@ namespace RecipeRepository.API.Repositories.Implementation
         {
             this.dbContext = dbContext;
         }
+
+        //get all allergenCategories
+        public async Task<IEnumerable<AllergenCategory>> GetAllAsync()
+        {
+            return await dbContext.AllergenCategories.ToListAsync();
+        }
+
+        //post allergenCategory
         public async Task<AllergenCategory> CreateAsync(AllergenCategory allergenCategory)
         {
             //provide the AllergenCategory to the collection inside ApplicationDbContext
