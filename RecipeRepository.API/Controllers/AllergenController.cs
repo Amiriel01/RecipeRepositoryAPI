@@ -91,5 +91,37 @@ namespace RecipeRepository.API.Controllers
 
             return Ok(response);
         }
+
+        //PUT: {apibaseurl}/api/Allergens/{id}
+        [HttpPut]
+        [Route("{id:guid}")]
+        public async Task<IActionResult> EditAllergenCategory([FromRoute] Guid id, EditAllergenCategoryRequestDTO request)
+        {
+            //convert DTO to DM
+            var allergenCategory = new AllergenCategory
+            {
+                Id = id,
+                AllergenName = request.AllergenName,
+                AllergenUrlHandle = request.AllergenUrlHandle,
+            };
+
+            //sent the allergenCategory update to the repository to update the database
+            allergenCategory = await allergenCategoryRepository.UpdateAsync(allergenCategory);
+
+            if (allergenCategory != null)
+            {
+                //convert the DM to DTO
+                var response = new AllergenCategoryDTO
+                {
+                    Id = id,
+                    AllergenName = request.AllergenName,
+                    AllergenUrlHandle = request.AllergenUrlHandle,
+                };
+
+                return Ok(response);
+            }
+
+            return NotFound();
+        }
     }
 }

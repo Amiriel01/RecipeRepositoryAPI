@@ -12,5 +12,8 @@ namespace RecipeRepository.API.Repositories.Interface
 
         //take a AllergenCategory and insert it in the database, then return the inserted AllergenCategory
         Task<AllergenCategory> CreateAsync(AllergenCategory allergenCategory);
+
+        //takes the AllergenCategory DM that needs to be updated and will return updated object or null
+        Task<AllergenCategory?> UpdateAsync(AllergenCategory allergenCategory);
     }
 }

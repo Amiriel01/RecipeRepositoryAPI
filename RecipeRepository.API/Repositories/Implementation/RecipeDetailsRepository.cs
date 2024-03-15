@@ -35,6 +35,21 @@ namespace RecipeRepository.API.Repositories.Implementation
             return recipeDetails;
         }
 
-      
+        public async Task<RecipeDetails?> UpdateAsync(RecipeDetails recipeDetails)
+        {
+            //provide the RecipeDetails update to the collection 
+            var foundReipeDetails = await dbContext.RecipeDetails.FirstOrDefaultAsync(x => x.Id == recipeDetails.Id);
+
+            if (foundReipeDetails != null)
+            {
+                //update all of the existing recipe details to the edited recipe details
+                dbContext.Entry(foundReipeDetails).CurrentValues.SetValues(recipeDetails);
+                //save changes to the database
+                await dbContext.SaveChangesAsync();
+                return recipeDetails;
+            }
+
+            return null;
+        }
     }
 }

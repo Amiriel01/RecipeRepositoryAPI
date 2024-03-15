@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RecipeRepository.API.Data;
 using RecipeRepository.API.Models.Domain;
+using RecipeRepository.API.Models.DTO;
 using RecipeRepository.API.Repositories.Interface;
 
 namespace RecipeRepository.API.Repositories.Implementation
@@ -33,6 +35,23 @@ namespace RecipeRepository.API.Repositories.Implementation
             await dbContext.AllergenCategories.AddAsync(allergenCategory);
             await dbContext.SaveChangesAsync();
             return allergenCategory;
+        }
+
+        public async Task<AllergenCategory?> UpdateAsync(AllergenCategory allergenCategory)
+        {
+            //provide the AllergenCategory update to the collection 
+            var foundAllergenCategory = await dbContext.AllergenCategories.FirstOrDefaultAsync(x => x.Id == allergenCategory.Id);
+
+            if (foundAllergenCategory != null)
+            {
+                //update all of the existing allergen category details to the edited details
+                dbContext.Entry(foundAllergenCategory).CurrentValues.SetValues(allergenCategory);
+                //save changes to the database
+                await dbContext.SaveChangesAsync();
+                return allergenCategory;
+            }
+
+            return null;
         }
     }
 }

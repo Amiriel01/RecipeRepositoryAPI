@@ -12,5 +12,8 @@ namespace RecipeRepository.API.Repositories.Interface
 
         //take a Recipe details and insert it in the database, then return the inserted Recipe details
         Task<RecipeDetails> CreateAsync(RecipeDetails recipe);
+
+        //takes the RecipeDetails DM that needs to be updated and will return updated object or null
+        Task<RecipeDetails?> UpdateAsync(RecipeDetails recipeDetails);
     }
 }

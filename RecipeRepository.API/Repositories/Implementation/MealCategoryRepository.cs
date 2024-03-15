@@ -34,5 +34,22 @@ namespace RecipeRepository.API.Repositories.Implementation
             await dbContext.SaveChangesAsync();
             return mealCategory;
         }
+
+        public async Task<MealCategory?> UpdateAsync(MealCategory mealCategory)
+        {
+            //provide the MealCategory update to the collection 
+            var foundMealCategory = await dbContext.MealCategories.FirstOrDefaultAsync(x => x.Id == mealCategory.Id);
+
+            if (foundMealCategory != null)
+            {
+                //update all of the existing meal category details to the edited details
+                dbContext.Entry(foundMealCategory).CurrentValues.SetValues(mealCategory);
+                //save changes to the database
+                await dbContext.SaveChangesAsync();
+                return mealCategory;
+            }
+
+            return null;
+        }
     }
 }

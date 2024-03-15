@@ -72,7 +72,7 @@ namespace RecipeRepository.API.Controllers
             return Ok(response);
         }
 
-        //POST: {baseapiurl}/api/Meals
+        //POST: {baseapiurl}/api/Recipes
         [HttpPost]
         //create DTO for CreateRecipeDetailsRequestDTO without the DM id in Domain.DTO folder
         //place the DTO as a prop and name it request because the user is requesting the information
@@ -106,6 +106,46 @@ namespace RecipeRepository.API.Controllers
             };
 
             return Ok(response);
+        }
+
+        //PUT: {apibaseurl}/api/Recipes/{id}
+        [HttpPut]
+        [Route("{id:guid}")]
+        public async Task<IActionResult> EditRecipeDetails([FromRoute] Guid id, EditRecipeDetailsRequestDTO request)
+        {
+            //convert DTO to DM
+            var recipeDetails = new RecipeDetails
+            {
+                Id = id,
+                RecipeName = request.RecipeName,
+                RecipeUrlHandle = request.RecipeUrlHandle,
+                RecipeShortDescription = request.RecipeShortDescription,
+                RecipeContent = request.RecipeContent,
+                RecipeImage = request.RecipeImage,
+                isVisible= request.isVisible,
+            };
+
+            //sent the recipeDetails update to the repository to update the database
+            recipeDetails = await recipeDetailsRepository.UpdateAsync(recipeDetails);
+
+            if (recipeDetails != null)
+            {
+                //convert the DM to DTO
+                var response = new RecipeDetailsDTO
+                {
+                    Id = id,
+                    RecipeName = request.RecipeName,
+                    RecipeUrlHandle = request.RecipeUrlHandle,
+                    RecipeShortDescription = request.RecipeShortDescription,
+                    RecipeContent = request.RecipeContent,
+                    RecipeImage = request.RecipeImage,
+                    isVisible = request.isVisible,
+                };
+
+                return Ok(response);
+            }
+
+            return NotFound();
         }
     }
 }

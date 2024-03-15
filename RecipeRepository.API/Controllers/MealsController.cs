@@ -39,7 +39,7 @@ namespace RecipeRepository.API.Controllers
                     MealName = mealCategory.MealName,
                     MealUrlHandle = mealCategory.MealUrlHandle,
                 });
-            }   
+            }
 
             return Ok(response);
         }
@@ -94,5 +94,37 @@ namespace RecipeRepository.API.Controllers
 
             return Ok(response);
         }
-    }
+
+        //PUT: {apibaseurl}/api/Meals/{id}
+        [HttpPut]
+        [Route("{id:guid}")]
+        public async Task<IActionResult> EditMealCategory([FromRoute] Guid id, EditMealCategoryRequestDTO request)
+        {
+            //convert DTO to DM
+            var mealCategory = new MealCategory
+            {
+                Id = id,
+                MealName = request.MealName,
+                MealUrlHandle = request.MealUrlHandle,
+            };
+
+           //sent the mealCategory update to the repository to update the database
+           mealCategory = await mealCategoryRepository.UpdateAsync(mealCategory);
+
+            if (mealCategory != null)
+            {
+                //convert the DM to DTO
+                var response = new MealCategoryDTO
+                {
+                    Id = id,
+                    MealName = request.MealName,
+                    MealUrlHandle = request.MealUrlHandle,
+                };
+
+                return Ok(response);
+            }
+
+            return NotFound();
+        }
+    };
 }

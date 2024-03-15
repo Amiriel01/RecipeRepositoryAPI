@@ -12,6 +12,9 @@ namespace RecipeRepository.API.Repositories.Interface
 
         //take a MealCategory and insert it in the database, then return the inserted MealCategory
         Task<MealCategory> CreateAsync(MealCategory mealCategory);
+
+        //takes the MealCategory DM that needs to be updated and will return updated object or null
+        Task<MealCategory?> UpdateAsync(MealCategory mealCategory);
         
     }
 }
