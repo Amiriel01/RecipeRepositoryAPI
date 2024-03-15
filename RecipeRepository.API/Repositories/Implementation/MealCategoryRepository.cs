@@ -20,6 +20,12 @@ namespace RecipeRepository.API.Repositories.Implementation
             return await dbContext.MealCategories.ToListAsync();
         }
 
+        //get a single meal category
+        public async Task<MealCategory?> GetById(Guid id)
+        {
+            return await dbContext.MealCategories.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
         //post a MealCategory to the database
         public async Task<MealCategory> CreateAsync(MealCategory mealCategory)
         {
@@ -28,7 +34,5 @@ namespace RecipeRepository.API.Repositories.Implementation
             await dbContext.SaveChangesAsync();
             return mealCategory;
         }
-
-       
     }
 }

@@ -20,6 +20,12 @@ namespace RecipeRepository.API.Repositories.Implementation
             return await dbContext.RecipeDetails.ToListAsync();
         }
 
+        //get a single recipes with details if found or return null if not found
+        public async Task<RecipeDetails?> GetById(Guid id)
+        {
+            return await dbContext.RecipeDetails.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
         //post new recipe
         public async Task<RecipeDetails> CreateAsync(RecipeDetails recipeDetails)
         {
@@ -28,5 +34,7 @@ namespace RecipeRepository.API.Repositories.Implementation
             await dbContext.SaveChangesAsync();
             return recipeDetails;
         }
+
+      
     }
 }

@@ -44,6 +44,29 @@ namespace RecipeRepository.API.Controllers
             return Ok(response);
         }
 
+        //GET: {apibaseurl}/api/Meals/{id}
+        [HttpGet]
+        [Route("{id:Guid}")]
+        public async Task<IActionResult> GetMealCategoryById([FromRoute] Guid id)
+        {
+            var foundMealCategory = await mealCategoryRepository.GetById(id);
+
+            if (foundMealCategory == null)
+            {
+                return NotFound();
+            };
+
+            //convert to DTO
+            var response = new MealCategoryDTO
+            {
+                Id = foundMealCategory.Id,
+                MealName = foundMealCategory.MealName,
+                MealUrlHandle = foundMealCategory.MealUrlHandle,
+            };
+
+            return Ok(response);
+        }
+
         //POST: {apibaseurl}/api/Meals
         [HttpPost]
         //create DTO for CreateMealDTO without the DM id in Domain.DTO folder

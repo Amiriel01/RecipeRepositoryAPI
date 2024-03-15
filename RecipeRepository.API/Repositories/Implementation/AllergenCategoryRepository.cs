@@ -20,6 +20,12 @@ namespace RecipeRepository.API.Repositories.Implementation
             return await dbContext.AllergenCategories.ToListAsync();
         }
 
+        //get a single allergen category
+        public async Task<AllergenCategory?> GetById(Guid id)
+        {
+            return await dbContext.AllergenCategories.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
         //post allergenCategory
         public async Task<AllergenCategory> CreateAsync(AllergenCategory allergenCategory)
         {

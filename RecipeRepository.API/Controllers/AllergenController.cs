@@ -41,6 +41,29 @@ namespace RecipeRepository.API.Controllers
             return Ok(response);
         }
 
+        //GET: {apibaseurl}/api/Allergens/{id}
+        [HttpGet]
+        [Route("{id:Guid}")]
+        public async Task<IActionResult> GetAllergenCategoryById([FromRoute] Guid id)
+        {
+            var foundAllergenCategory = await allergenCategoryRepository.GetById(id);
+
+            if (foundAllergenCategory == null)
+            {
+                return NotFound();
+            };
+
+            //convert to DTO
+            var response = new AllergenCategoryDTO
+            {
+                Id = foundAllergenCategory.Id,
+                AllergenName = foundAllergenCategory.AllergenName,
+                AllergenUrlHandle = foundAllergenCategory.AllergenUrlHandle,
+            };
+
+            return Ok(response);
+        }
+
         //POST: {baseapiurl}/api/Allergen
         [HttpPost]
         //create DTO for CreateAllergenDTO without the DM id in Domain.DTO folder

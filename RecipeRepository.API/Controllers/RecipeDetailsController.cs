@@ -45,11 +45,38 @@ namespace RecipeRepository.API.Controllers
             return Ok(response);
         }
 
+        //GET: {apibaseurl}/api/Recipes/{id}
+        [HttpGet]
+        [Route("{id:Guid}")]
+        public async Task<IActionResult> GetRecipeDetailsById([FromRoute] Guid id)
+        {
+            var foundRecipeDetails = await recipeDetailsRepository.GetById(id);
+
+            if (foundRecipeDetails == null)
+            {
+                return NotFound();
+            };
+
+            //convert to DTO
+            var response = new RecipeDetailsDTO
+            {
+                Id = foundRecipeDetails.Id,
+                RecipeName = foundRecipeDetails.RecipeName,
+                RecipeUrlHandle = foundRecipeDetails.RecipeUrlHandle,
+                RecipeShortDescription = foundRecipeDetails.RecipeShortDescription,
+                RecipeContent = foundRecipeDetails.RecipeContent,
+                RecipeImage = foundRecipeDetails.RecipeImage,
+                isVisible = foundRecipeDetails.isVisible,
+            };
+
+            return Ok(response);
+        }
+
         //POST: {baseapiurl}/api/Meals
         [HttpPost]
         //create DTO for CreateRecipeDetailsRequestDTO without the DM id in Domain.DTO folder
         //place the DTO as a prop and name it request because the user is requesting the information
-        public async Task<IActionResult> CreateRecipeDetails(CreateRecipeDetailsRequestDTO request)
+        public async Task<IActionResult> CreateRecipeDetails([FromBody] CreateRecipeDetailsRequestDTO request)
         {
             //covert DTO to DM
             var recipeDetails = new RecipeDetails
