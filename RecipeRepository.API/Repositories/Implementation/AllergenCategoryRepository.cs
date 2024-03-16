@@ -53,5 +53,19 @@ namespace RecipeRepository.API.Repositories.Implementation
 
             return null;
         }
+
+        public async Task<AllergenCategory?> DeleteAsync(Guid id)
+        {
+            var foundAllergenCategory = await dbContext.AllergenCategories.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (foundAllergenCategory != null)
+            {
+                dbContext.AllergenCategories.Remove(foundAllergenCategory);
+                await dbContext.SaveChangesAsync();
+                return foundAllergenCategory;
+            }
+
+            return null;
+        }
     }
 }

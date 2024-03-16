@@ -147,5 +147,29 @@ namespace RecipeRepository.API.Controllers
 
             return NotFound();
         }
+
+        //DELETE: {apibaseurl}api/Recipes/{id}
+        [HttpDelete]
+        [Route("{id:guid}")]
+        public async Task<IActionResult> DeleteRecipeDetails([FromRoute] Guid id)
+        {
+            //call repository method
+            var recipeDetails = await recipeDetailsRepository.DeleteAsync(id);
+
+            if (recipeDetails != null)
+            {
+                //convert DM to DTO
+                var response = new RecipeDetailsDTO
+                {
+                    Id = recipeDetails.Id,
+                    RecipeName = recipeDetails.RecipeName,
+                    RecipeUrlHandle = recipeDetails.RecipeUrlHandle,
+                };
+
+                return Ok(response);
+            }
+
+            return NotFound();
+        }
     }
 }

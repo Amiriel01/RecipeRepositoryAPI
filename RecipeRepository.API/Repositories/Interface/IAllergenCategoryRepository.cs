@@ -15,5 +15,8 @@ namespace RecipeRepository.API.Repositories.Interface
 
         //takes the AllergenCategory DM that needs to be updated and will return updated object or null
         Task<AllergenCategory?> UpdateAsync(AllergenCategory allergenCategory);
+
+        //takes the AllergenCategory DM that needs to be deleted and will delete it or return null
+        Task<AllergenCategory?> DeleteAsync(Guid id);
     }
 }

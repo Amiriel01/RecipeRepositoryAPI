@@ -126,5 +126,29 @@ namespace RecipeRepository.API.Controllers
 
             return NotFound();
         }
+
+        //DELETE: {apibaseurl}api/Meals/{id}
+        [HttpDelete]
+        [Route("{id:guid}")]
+        public async Task<IActionResult> DeleteMealCategory([FromRoute] Guid id)
+        {
+            //call repository method
+           var mealCategory = await mealCategoryRepository.DeleteAsync(id);
+
+            if (mealCategory != null)
+            {
+                //convert DM to DTO
+                var response = new MealCategoryDTO
+                {
+                    Id= mealCategory.Id,
+                    MealName = mealCategory.MealName,
+                    MealUrlHandle=mealCategory.MealUrlHandle,
+                };
+
+                return Ok(response);
+            }
+
+            return NotFound();
+        }
     };
 }

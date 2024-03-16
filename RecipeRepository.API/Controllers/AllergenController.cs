@@ -123,5 +123,29 @@ namespace RecipeRepository.API.Controllers
 
             return NotFound();
         }
+
+        //DELETE: {apibaseurl}api/Allergens/{id}
+        [HttpDelete]
+        [Route("{id:guid}")]
+        public async Task<IActionResult> DeleteAllergenCategory([FromRoute] Guid id)
+        {
+            //call repository method
+            var allergenCategory = await allergenCategoryRepository.DeleteAsync(id);
+
+            if (allergenCategory != null)
+            {
+                //convert DM to DTO
+                var response = new AllergenCategoryDTO
+                {
+                    Id = allergenCategory.Id,
+                    AllergenName = allergenCategory.AllergenName,
+                    AllergenUrlHandle = allergenCategory.AllergenUrlHandle,
+                };
+
+                return Ok(response);
+            }
+
+            return NotFound();
+        }
     }
 }

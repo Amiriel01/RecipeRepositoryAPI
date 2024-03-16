@@ -15,5 +15,8 @@ namespace RecipeRepository.API.Repositories.Interface
 
         //takes the RecipeDetails DM that needs to be updated and will return updated object or null
         Task<RecipeDetails?> UpdateAsync(RecipeDetails recipeDetails);
+
+        //takes the RecipeDetails DM that needs to be deleted and will delete it or return null
+        Task<RecipeDetails?> DeleteAsync(Guid id);
     }
 }
