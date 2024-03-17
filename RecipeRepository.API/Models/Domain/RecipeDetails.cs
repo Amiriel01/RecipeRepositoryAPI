@@ -15,5 +15,10 @@
         public string RecipeImage { get; set;}
 
         public bool isVisible { get; set; }
+
+        //recipe details can have many categories
+        public ICollection<MealCategory> MealCategories { get; set; }
+
+        public ICollection<AllergenCategory> AllergenCategories { get; set;}
     }
 }
