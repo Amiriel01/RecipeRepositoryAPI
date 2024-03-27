@@ -15,5 +15,9 @@
         public string RecipeImage { get; set; }
 
         public bool isVisible { get; set; }
+
+        public List<MealCategoryDTO> MealCategories { get; set; } = new List<MealCategoryDTO>();
+
+        public List<AllergenCategoryDTO> AllergenCategories { get; set; } = new List<AllergenCategoryDTO>();
     }
 }

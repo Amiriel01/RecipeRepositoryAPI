@@ -13,5 +13,10 @@
         public string RecipeImage { get; set; }
 
         public bool isVisible { get; set; }
+
+        //accept ids from categories
+        public Guid[] MealCategories { get; set; }
+
+        public Guid[] AllergenCategories { get; set; }
     }
 }
