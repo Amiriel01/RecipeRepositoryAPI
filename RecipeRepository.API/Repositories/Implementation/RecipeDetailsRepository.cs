@@ -17,7 +17,7 @@ namespace RecipeRepository.API.Repositories.Implementation
         //get a list of the recipes with details
         public async Task<IEnumerable<RecipeDetails>> GetAllAsync()
         {
-            return await dbContext.RecipeDetails.ToListAsync();
+            return await dbContext.RecipeDetails.Include(x => x.MealCategories).Include(x => x.AllergenCategories).ToListAsync();
         }
 
         //get a single recipes with details if found or return null if not found

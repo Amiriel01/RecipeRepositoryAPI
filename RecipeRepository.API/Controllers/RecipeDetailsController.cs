@@ -43,6 +43,18 @@ namespace RecipeRepository.API.Controllers
                     RecipeContent = recipe.RecipeContent,
                     RecipeImage = recipe.RecipeImage,
                     isVisible = recipe.isVisible,
+                    MealCategories = recipe.MealCategories.Select(x => new MealCategoryDTO
+                    {
+                        Id = x.Id,
+                        MealName = x.MealName,
+                        MealUrlHandle = x.MealUrlHandle,
+                    }).ToList(),
+                    AllergenCategories = recipe.AllergenCategories.Select(x => new AllergenCategoryDTO
+                    {
+                        Id = x.Id,
+                        AllergenName = x.AllergenName,
+                        AllergenUrlHandle = x.AllergenUrlHandle,
+                    }).ToList(),
                 });
             }
 
