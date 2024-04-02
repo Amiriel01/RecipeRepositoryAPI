@@ -8,7 +8,7 @@ namespace RecipeRepository.API.Repositories.Interface
         Task<IEnumerable<RecipeDetails>> GetAllAsync();
 
         //get a single recipe
-        Task<RecipeDetails?> GetById(Guid id);
+        Task<RecipeDetails?> GetByIdAsync(Guid id);
 
         //take a Recipe details and insert it in the database, then return the inserted Recipe details
         Task<RecipeDetails> CreateAsync(RecipeDetails recipe);

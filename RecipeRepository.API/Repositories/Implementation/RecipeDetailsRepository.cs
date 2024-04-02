@@ -21,9 +21,9 @@ namespace RecipeRepository.API.Repositories.Implementation
         }
 
         //get a single recipes with details if found or return null if not found
-        public async Task<RecipeDetails?> GetById(Guid id)
+        public async Task<RecipeDetails?> GetByIdAsync(Guid id)
         {
-            return await dbContext.RecipeDetails.FirstOrDefaultAsync(x => x.Id == id);
+            return await dbContext.RecipeDetails.Include(x => x.MealCategories).Include(x => x.AllergenCategories).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         //post new recipe

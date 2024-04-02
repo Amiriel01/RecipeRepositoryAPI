@@ -66,7 +66,7 @@ namespace RecipeRepository.API.Controllers
         [Route("{id:Guid}")]
         public async Task<IActionResult> GetRecipeDetailsById([FromRoute] Guid id)
         {
-            var foundRecipeDetails = await recipeDetailsRepository.GetById(id);
+            var foundRecipeDetails = await recipeDetailsRepository.GetByIdAsync(id);
 
             if (foundRecipeDetails == null)
             {
@@ -83,6 +83,18 @@ namespace RecipeRepository.API.Controllers
                 RecipeContent = foundRecipeDetails.RecipeContent,
                 RecipeImage = foundRecipeDetails.RecipeImage,
                 isVisible = foundRecipeDetails.isVisible,
+                MealCategories = foundRecipeDetails.MealCategories.Select(x => new MealCategoryDTO
+                {
+                    Id = x.Id,
+                    MealName = x.MealName,
+                    MealUrlHandle = x.MealUrlHandle,
+                }).ToList(),
+                AllergenCategories = foundRecipeDetails.AllergenCategories.Select(x => new AllergenCategoryDTO
+                {
+                    Id = x.Id,
+                    AllergenName = x.AllergenName,
+                    AllergenUrlHandle = x.AllergenUrlHandle,
+                }).ToList(),
             };
 
             return Ok(response);
